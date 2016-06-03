@@ -1,4 +1,6 @@
-setup_brando ;
+restoredefaultpath;clear;clc;clear;clc;
+%setup_brando ;
+setup ;
 %restoredefaultpath;clear;clc;clear;clc;
 
 % -------------------------------------------------------------------------
