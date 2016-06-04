@@ -18,24 +18,24 @@ w = single([
 % Apply the filter to the image
 y = vl_nnconv(x, w, []) ;
 
-% Visualize the results
-figure(11) ; clf ; colormap gray ;
-set(gcf, 'name', 'Part 1.1: convolution') ;
-
-subplot(2,2,1) ;
-imagesc(x) ; % Display image with scaled colors
-axis off image ;
-title('Input image x') ;
-
-subplot(2,2,2) ;
-imagesc(w) ;
-axis off image ;
-title('Filter w') ;
-
-subplot(2,2,3) ;
-imagesc(y) ;
-axis off image ;
-title('Output image y') ;
+% % Visualize the results
+% figure(11) ; clf ; colormap gray ;
+% set(gcf, 'name', 'Part 1.1: convolution') ;
+% 
+% subplot(2,2,1) ;
+% imagesc(x) ; % Display image with scaled colors
+% axis off image ;
+% title('Input image x') ;
+% 
+% subplot(2,2,2) ;
+% imagesc(w) ;
+% axis off image ;
+% title('Filter w') ;
+% 
+% subplot(2,2,3) ;
+% imagesc(y) ;
+% axis off image ;
+% title('Output image y') ;
 
 %% Part 1.1.2: convolution by a bank of filters
 
@@ -55,16 +55,24 @@ w3 = single([
    0  0  0
   +1 +1 +1]) ;
 
-wbank = cat(4, w1, w2, w3) ;
+%w4 = single( ones(3,3) ) ;
+
+w4 = single([
+  +1 -1 +1
+   0  0  0
+  +1 +1 +1]) ;
+
+wbank = cat(4, w1, w2, w3, w4) ;
+%wbank = cat(4, w1, w2, w3) ;
 
 % Apply convolution
 y = vl_nnconv(x, wbank, []) ;
 
-% Show feature channels
-figure(12) ; clf('reset') ;
-set(gcf, 'name', 'Part 1.1.2: channels') ;
-colormap gray ;
-showFeatureChannels(y) ;
+% % Show feature channels
+% figure(12) ; clf('reset') ;
+% set(gcf, 'name', 'Part 1.1.2: channels') ;
+% colormap gray ;
+% showFeatureChannels(y) ;
 
 %% Part 1.1.3: convolving a batch of images
 
@@ -78,14 +86,18 @@ figure(13) ; clf('reset') ; colormap gray ;
 set(gcf, 'name', 'Part 1.1.3: filtering a batch') ;
 
 subplot(4,2,1) ; imagesc(x1) ; axis off image ;
-subplot(4,2,3) ; imagesc(y(:,:,1,1)) ; axis off image ;
-subplot(4,2,5) ; imagesc(y(:,:,2,1)) ; axis off image ;
-subplot(4,2,7) ; imagesc(y(:,:,3,1)) ; axis off image ;
+% y(:,:,index_filter,1), results from applying filter (index_filter) to
+% image 1, which is x1='ray'
+subplot(4,2,3) ; imagesc(y(:,:,1,1)) ; axis off image ; % filter_1 w1, x1='ray'
+subplot(4,2,5) ; imagesc(y(:,:,2,1)) ; axis off image ; % filter_2 w2, x1='ray'
+subplot(4,2,7) ; imagesc(y(:,:,3,1)) ; axis off image ; % filter_3 w3, x1='ray'
 
 subplot(4,2,2) ; imagesc(x2) ; axis off image ;
-subplot(4,2,4) ; imagesc(y(:,:,1,2)) ; axis off image ;
-subplot(4,2,6) ; imagesc(y(:,:,2,2)) ; axis off image ;
-subplot(4,2,8) ; imagesc(y(:,:,3,2)) ; axis off image ;
+% y(:,:,index_filter,2), results from applying filter (index_filter) to
+% image 2, which is x2='crab'
+subplot(4,2,4) ; imagesc(y(:,:,1,2)) ; axis off image ; % filter_1 w1, x2='crab'
+subplot(4,2,6) ; imagesc(y(:,:,2,2)) ; axis off image ; % filter_2 w2, x2='crab'
+subplot(4,2,8) ; imagesc(y(:,:,3,2)) ; axis off image ; % filter_3 w3, x2='crab'
 
 %% Part 1.2: non-linear activation functions (ReLU)
 
