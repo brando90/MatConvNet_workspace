@@ -16,11 +16,12 @@ for n = 1:size(x,4)
         xp = x ;
         xp(i,j,k,n) = xp(i,j,k,n) + delta ;
         yp = f(xp) ;
-        dx_numerical(i,j,k,n) =  (yp - y) / delta ;
+        dx_numerical(i,j,k,n) =  (yp - y) / delta ; %compute Numerical Derivative
       end
     end
   end
 end
+%%
 err = dx_numerical - dx ;
 
 range = max(abs(dx(:))) * [-1 1] ;

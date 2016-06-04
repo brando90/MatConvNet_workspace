@@ -23,7 +23,7 @@ p = randn(size(y), 'single') ;
 % Check the derivative numerically
 figure(21) ; clf('reset') ;
 set(gcf, 'name', 'Part 2.1: single layer backrpop') ;
-checkDerivativeNumerically(@(x) proj(p, vl_nnconv(x, w, [])), x, dx) ;
+checkDerivativeNumerically( @(x) proj(p, vl_nnconv(x, w, [])) ,x,dx) ;
 
 %% Part 2.2: Backpropagation
 
