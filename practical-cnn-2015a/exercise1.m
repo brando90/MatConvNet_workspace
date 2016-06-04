@@ -7,7 +7,7 @@ setup ;
 % Part 1.1: Linear convolution
 % -------------------------------------------------------------------------
 
-% Read an example image
+% Read an example imagemex
 x = imread('peppers.png') ;
 
 % Convert to single format

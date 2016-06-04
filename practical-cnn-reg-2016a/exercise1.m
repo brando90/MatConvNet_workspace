@@ -23,7 +23,7 @@ figure(11) ; clf ; colormap gray ;
 set(gcf, 'name', 'Part 1.1: convolution') ;
 
 subplot(2,2,1) ;
-imagesc(x) ;
+imagesc(x) ; % Display image with scaled colors
 axis off image ;
 title('Input image x') ;
 
