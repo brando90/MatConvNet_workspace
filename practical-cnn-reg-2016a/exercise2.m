@@ -16,8 +16,9 @@ y = vl_nnconv(x, w, []) ; % (8 x 8 x 1 x 2) = (H_x - H_w + 1 x W_x - W_w + 1 x C
 
 % Pick a random projection tensor
 p = randn(size(y), 'single') ; % (8 x 8 x 1 x 2)
-p = zeros(size(y), 'single') ;
-p(1) = 1 ;
+
+% p = zeros(size(y), 'single') ;
+% p(1) = 1 ;
 
 % Backward mode: projected derivatives
 [dx,dw] = vl_nnconv(x, w, [], p) ; % <p, f(x;w)> = proj_p(f(x;w))
@@ -33,11 +34,11 @@ checkDerivativeNumerically( @(x) proj(p, vl_nnconv(x, w, [])) ,x,dx) ;
 x = randn(10, 10, 1, 2, 'single') ;
 
 % Forward mode: evaluate the conv follwed by ReLU
-y = vl_nnconv(x, w, []) ;
-z = vl_nnrelu(y) ;
+y = vl_nnconv(x, w, []) ; % (8     8     1     2)
+z = vl_nnrelu(y) ; % (8     8     1     2)
 
 % Pick a random projection tensor
-p = randn(size(z), 'single') ;
+p = randn(size(z), 'single') ; % (8     8     1     2)
 
 % Backward mode: projected derivatives
 dy = vl_nnrelu(z, p) ;
