@@ -18,7 +18,7 @@ y = vl_nnconv(x, w, []) ;
 p = randn(size(y), 'single') ;
 
 % Backward mode: projected derivatives
-[dx,dw] = vl_nnconv(x, w, [], p) ;
+[dx,dw] = vl_nnconv(x, w, [], p) ; % <p, f(x;w)> = proj_p(f(x;w))
 
 % Check the derivative numerically
 figure(21) ; clf('reset') ;
