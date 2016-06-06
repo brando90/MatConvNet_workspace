@@ -20,7 +20,7 @@ p = randn(size(y), 'single') ; % (8 x 8 x 1 x 2)
 % p = zeros(size(y), 'single') ;
 % p(1) = 1 ;
 
-% Backward mode: projected derivatives
+% Backward mode: projected derivatives 
 [dx,dw] = vl_nnconv(x, w, [], p) ; % <p, f(x;w)> = proj_p(f(x;w))
 
 % Check the derivative numerically

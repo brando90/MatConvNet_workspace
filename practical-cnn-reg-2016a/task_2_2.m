@@ -26,11 +26,13 @@ p3 = randn(size(z3), 'single') ;
 % d<p,z3>/dw1 and % d<p,z3>/dw2
 [dz3dz2, dz3dw2] = vl_nnconv(z2, w2, [], p3) ;
 dz2dz1 = vl_nnrelu(z1, dz3dz2) ;
-[dz1x,dz1w1] = vl_nnconv(x, w1, [], dz2dz1) ;
+[dz3dx,dz3w1] = vl_nnconv(x, w1, [], dz2dz1) ;
 
 
 % Check the derivative numerically
-func = @(W) proj( vl_nnconv(vl_nnrelu( vl_nnconv(x,W,[]) ) ,w2,[]), p3) ;
 figure(22) ; clf('reset') ;
 set(gcf, 'name', 'Task Part 2.2: three layers backrpop') ;
-checkDerivativeNumerically(func, w1, dz1w1) ;
+func = @(W) proj( vl_nnconv(vl_nnrelu( vl_nnconv(x,W,[]) ) ,w2,[]), p3) ;
+checkDerivativeNumerically(func, w1, dz3w1) ;
+%func = @(W) proj( vl_nnconv(vl_nnrelu( vl_nnconv(x,w1,[]) ) ,W,[]), p3) ;
+%checkDerivativeNumerically(func, w2, dz3dw2) ;
