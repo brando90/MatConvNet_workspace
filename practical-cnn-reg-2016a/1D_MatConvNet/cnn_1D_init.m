@@ -1,0 +1,43 @@
+function [ net ] = cnn_1D_init( varargin )
+opts.w1 = nan;
+opts.w2 = nan;
+opts.b1 = nan;
+opts.b2 = nan;
+opts.batchNormalization = false;
+opts.networkType = 'simplenn'
+opts = vl_argparse(opts, varargin); %load arg_name=arg_val
+w1 = opts.w1;
+w2 = opts.w2;
+%%
+net.layers = {} ;
+net.layers{end+1} = struct('type', 'conv', ...
+                           'name', 'conv1', ...
+                           'weights', {{w1, []}}, ...
+                           'pad', 0) ;
+net.layers{end+1} = struct('type', 'relu', ...
+                           'name', 'relu1' ) ;
+net.layers{end+1} = struct('type', 'conv', ...
+                           'name', 'conv1', ...
+                           'weights', {{w2, []}}, ...
+                           'pad', 0) ;
+net.layers{end+1} = struct('type', 'pdist', ...
+                           'name', 'averageing1', ...
+                           'class', 0, ...
+                           'p', 1) ;
+                       
+if opts.batchNormalization
+    net = insertBnorm(net,1);
+end
+net = vl_simplenn_tidy(net) ;
+
+% --------------------------------------------------------------------
+function net = insertBnorm(net, l)
+% --------------------------------------------------------------------
+%assert(isfield(net.layers{l}, 'weights'));
+ndim = size(net.layers{l}.weights{1}, 4);
+layer = struct('type', 'bnorm', ...
+               'weights', {{ones(ndim, 1, 'single'), zeros(ndim, 1, 'single')}}, ...
+               'learningRate', [1 1 0.05], ...
+               'weightDecay', [0 0]) ;
+net.layers{l}.biases = [] ;
+net.layers = horzcat(net.layers(1:l), layer, net.layers(l+1:end)) ;
