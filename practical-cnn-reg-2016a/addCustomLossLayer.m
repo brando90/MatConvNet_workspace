@@ -12,8 +12,10 @@ layer.class = [] ;
 
 % Make sure that the loss layer is not added multiple times
 if strcmp(net.layers{end}.name, layer.name)
+  % if the final loss layers is the loss already, leave it as is.
   net.layers{end} = layer ;
 else
+    % if the final layer is not the loss, add it to the end.
   net.layers{end+1} = layer ;
 end
 

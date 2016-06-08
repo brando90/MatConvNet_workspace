@@ -7,15 +7,15 @@ setup() ;
 imdb = load('data/text_imdb.mat') ;
 
 % Visualize the first image in the database
-figure(31) ; set(gcf, 'name', 'Part 3.1: Data') ; clf ;
-
-subplot(1,2,1) ; imagesc(imdb.images.data(:,:,:,1)) ;
-axis off image ; title('Input (blurred)') ;
-
-subplot(1,2,2) ; imagesc(imdb.images.label(:,:,:,1)) ;
-axis off image ; title('Desired output (sharp)') ;
-
-colormap gray ;
+% figure(31) ; set(gcf, 'name', 'Part 3.1: Data') ; clf ;
+% 
+% subplot(1,2,1) ; imagesc(imdb.images.data(:,:,:,1)) ;
+% axis off image ; title('Input (blurred)') ;
+% 
+% subplot(1,2,2) ; imagesc(imdb.images.label(:,:,:,1)) ;
+% axis off image ; title('Desired output (sharp)') ;
+% 
+% colormap gray ;
 
 %% Part 3.2: Create a network architecture
 %

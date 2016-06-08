@@ -7,7 +7,7 @@ function err = checkDerivativeNumerically(f, x, dx)
 
 y = f(x) ;
 dx_numerical = zeros(size(dx), 'single') ;
-delta = 0.0001 ;
+delta = 0.001 ;
 
 for n = 1:size(x,4)
   for k = 1:size(x,3)

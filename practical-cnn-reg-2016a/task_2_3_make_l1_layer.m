@@ -3,6 +3,7 @@ clc;clear;clc;clear;
 x = randn(10, 10, 1, 2, 'single') ; 
 r = randn(10, 10, 1, 2, 'single') ;
 p = randn(1); %
+%p = 1;
 
 dl1dx = l1LossBackward(x,r,p);
 %% check numerical
