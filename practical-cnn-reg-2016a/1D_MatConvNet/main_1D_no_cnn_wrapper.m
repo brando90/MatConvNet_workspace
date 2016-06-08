@@ -21,5 +21,8 @@ w2(:,:,:,3) = 3;
 b2 = [];
 z2 = vl_nnconv(a1,w2,b2) 
 disp('---');
-a2 = vl_nnrelu(z2) % want (1 x 1 x 1)
+y = vl_nnpdist(z2, 0, 1)
+%y = vl_nnpool(z2, [1,1]) 
+%y = vl_nnconv(z2,ones(1,1,1),[])
+%a2 = vl_nnrelu(z2) % want (1 x 1 x 1)
 %%
