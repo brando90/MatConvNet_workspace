@@ -57,12 +57,22 @@ x0 = randn(size(x), 'single') ;
 forward = @l2LossForward; backward = @l2LossBackward ;
 
 % Uncomment the followung line to test your L1 loss implementation
-forward = @l1LossForward; backward = @l1LossBackward ;
+% forward = @l1LossForward; backward = @l1LossBackward ;
 
 y = forward(x, x0) ;
 
 p = randn(size(y), 'single') ;
 dx = backward(x, x0, p) ;
+
+% x = randn(3, 4, 5, 2, 'single') ;
+% x0 = randn(3, 4, 5, 2, 'single') ;
+x = randn(3, 4, 5, 'single') ;
+x0 = randn(3, 4, 5, 'single') ;
+delta = x - x0;
+y_custom = sum(delta(:).^2)
+delta = vl_nnpdist(x, x0, 2);
+y_vl = sum(sum(delta(:).^2))
+%[dx] = vl_nnpdist(x, x0, 2, p, 'NoRoot', true);
 
 % Check the derivative numerically
 figure(23) ; clf('reset') ;
