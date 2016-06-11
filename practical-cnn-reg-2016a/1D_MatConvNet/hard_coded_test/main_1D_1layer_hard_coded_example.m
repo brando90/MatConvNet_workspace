@@ -1,32 +1,36 @@
 clc;clear;clc;clear;
 %% prepare Data
-M = 6;
+M = 32;
 X = zeros(1,1,1,M); % (1 1 1 2) = (1 1 1 M)
 for m=1:M,
     X(:,:,:,m) = m;
 end
+Y = 10*X;
 split = ones(1,M);
 split(floor(M*0.75):end) = 2;
 imdb.images.data = X;
 %imdb.images.label = squeeze( X );
-imdb.images.label = X;
+imdb.images.label = Y;
 imdb.images.set = split;
 %%
 L1=3;
 w1 = randn(1,1,1,L1);
 w2 = randn(1,1,1,L1);
-b1 = randn(1,L1);
-b2 = randn(1,L1);
+b1 = randn(1,1,1,L1);
+b2 = randn(1,1,1,L1);
+% b1 = randn(1,L1);
+% b2 = randn(1,L1);
 %%
+net.meta.inputSize = [1 1 1 1]
 net.layers = {} ;
 net.layers{end+1} = struct('type', 'conv', ...
                            'name', 'conv1', ...
                            'weights', {{w1, b1}}, ...
                            'pad', 0) ;
-net.layers{end+1} = struct('type', 'bnorm', ...
-                           'weights', {{ones(1,1,1,L1), zeros(1,1,1,L1)}}, ...
-                           'learningRate', [1 1 0.05], ...
-                           'weightDecay', [0 0]) ;                       
+% net.layers{end+1} = struct('type', 'bnorm', ...
+%                            'weights', {{ones(1,1,1,L1), zeros(1,1,1,L1)}}, ...
+%                            'learningRate', [1 1 0.05], ...
+%                            'weightDecay', [0 0]) ;                       
 net.layers{end+1} = struct('type', 'relu', ...
                            'name', 'relu1' ) ;
 net.layers{end+1} = struct('type', 'conv', ...
@@ -52,4 +56,5 @@ trainOpts.plotDiagnostics = false ;
 trainOpts.numEpochs = 20 ;
 trainOpts.errorFunction = 'none' ;
 %% CNN TRAIN
+vl_simplenn_display(net) ;
 net = cnn_train(net, imdb, @getBatch, trainOpts) ;
