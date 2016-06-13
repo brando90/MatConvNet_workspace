@@ -55,18 +55,19 @@ res = vl_simplenn(net, x);
 loss_forward = squeeze( loss_forward ) % (1 1)
 loss_res = squeeze( res(end).x ) % (1 1)
 %% Backward Pass
-% p = 1;
-% dldx = l2LossBackward(y1,r,p);
-% dy1dx = vl_nnpdist(z2, 0, 1, dldx);
-% [dz2dx, dz2dw2] = vl_nnconv(a1, w2, b2, dy1dx);
-% da1dx = vl_nnrelu(bn1, dz2dx);
-% [dbn1dx,dbn1dG1,dbn1dB1] = vl_nnbnorm(z1,G1,B1,da1dx);
-% [dz1dx, dz1dw1] = vl_nnconv(x, w1, b1, dbn1dx);
-% %%
-% dzdy = 1;
-% res = vl_simplenn(net, x, dzdy, res);
-% %%
+p = 1;
+dldx = l2LossBackward(y1,r,p);
+dy1dx = vl_nnpdist(z2, 0, 1, dldx);
+[dz2dx, dz2dw2] = vl_nnconv(a1, w2, b2, dy1dx);
+da1dx = vl_nnrelu(bn1, dz2dx);
+[dbn1dx,dbn1dG1,dbn1dB1] = vl_nnbnorm(z1,G1,B1,da1dx);
+[dz1dx, dz1dw1] = vl_nnconv(x, w1, b1, dbn1dx);
+%%
+dzdy = 1;
+res = vl_simplenn(net, x, dzdy, res);
+%%
+% func = @(x) proj(p, forward(x, x0)) ;
 % err = checkDerivativeNumerically(f, x, dx)
 % %%
-% dz1dx = squeeze(dz1dx)
-% dz1dx_vl_simplenn = squeeze(res(1).dzdx)
+dz1dx = squeeze(dz1dx)
+dz1dx_vl_simplenn = squeeze(res(1).dzdx)

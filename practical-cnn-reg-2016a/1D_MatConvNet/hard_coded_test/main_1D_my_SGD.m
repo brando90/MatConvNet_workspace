@@ -24,9 +24,9 @@ EPS = 1e-4;
 %% make CNN layers: conv, BN, relu, conv, pdist, l2-loss
 net.layers = {} ;
 net.layers{end+1} = struct('type', 'conv', ...
-                           'name', 'conv1', ...
-                           
+                           'name', 'conv1', ...                          
                            'weights', {{w1, b1}}, ...
+                           'learningRate', [0.9 0.9], ...
                            'pad', 0) ;
 net.layers{end+1} = struct('type', 'bnorm', ...
                            'weights', {{G1, B1}}, ...
@@ -49,16 +49,29 @@ bwfun = @l2LossBackward;
 net = addCustomLossLayer(net, fwfun, bwfun) ;
 net.layers{end}.class = Y_test; % its the test set
 net = vl_simplenn_tidy(net) ;
-res = vl_simplenn(net, X_train);
 %% prepare train options
 trainOpts.expDir = 'results/' ; %save results/trained cnn
 trainOpts.gpus = [] ;
 trainOpts.batchSize = 2 ;
-trainOpts.learningRate = 0.02 ;
+trainOpts.learningRate = 0.02 ; %TODO: why is this learning rate here?
 trainOpts.plotDiagnostics = false ;
 %trainOpts.plotDiagnostics = true ; % Uncomment to plot diagnostics
 trainOpts.numEpochs = 20 ; % number of training epochs
 trainOpts.errorFunction = 'none' ;
-%% CNN TRAIN
-vl_simplenn_display(net) ;
-net = cnn_train(net, imdb, @getBatch, trainOpts) ;
+%%
+res = vl_simplenn(net, X_train, 1);
+for epoch=1:trainOpts.numEpochs
+    %% forward pass and compute derivatives
+    projection = 1;
+    res = vl_simplenn(net, X_train, projection);
+    %% SGD
+    num_layers = size(net, 2);
+    for l=num_layers:-1:1
+        for j=1:numel(res(l).dzdw)
+            net.layers{l}.weights{j} = net.layers{l}.weights{j} - net.layers{l}.learningRate(j)*res(l).dzdw{j}; 
+        end    
+    end
+end
+%%
+disp('END')
+beep;
